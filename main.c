@@ -3,13 +3,13 @@ int value = 0;
 int main(int argc, char **argv)
 {
 	char *gettingopcodes = NULL;
-	char **pritok, *filename;
-	unsigned int countlines = 0;
+	char **tokens, *filename, **checkd;
+	unsigned int line_number = 0;
 	size_t filelize = 0;
 	ssize_t fdgetline;
 	stack_t *stack;
 	FILE *file;
-	int i = 0;
+	int i = 0, contad = 0;
 
 	if (argc != 2)
 	{
@@ -25,19 +25,38 @@ int main(int argc, char **argv)
 	}
 	while ((fdgetline = getline(&gettingopcodes, &filelize, file) != EOF))
 		{
-			countlines++;
-			printf("So far.\n # of lines: %u\n", countlines);
-			i = 0;
-			pritok = malloc(sizeof(pritok));
-			pritok[i] = strtok(gettingopcodes, " ");
+			line_number++;
+			tokens = malloc(sizeof(tokens));
+			if (tokens == NULL)
+			{
+				malloc_failed(tokens);
+			}
+			tokens[i] = strtok(gettingopcodes, " ");
 			do{
 				i++;
-				pritok[i] = strtok(NULL, " ");
-				printf("%s,  %i\n", pritok[i-1], i-1 );
-			} while (pritok[i] != NULL);
-			value = atoi(pritok[1]);
+				tokens[i] = strtok(NULL, " ");
+			} while (tokens[i] != NULL);
+			checkd = malloc(sizeof(tokens[1]));
+			if (checkd == NULL)
+			{
+				malloc_failed(checkd);
+			}
+                        while(checkd[contad] != '\0')
+                        {
+                                if (*(checkd)[contad] >= 48 && *(checkd)[contad] <=57)
+                                {
+                                        contad++;
+                                }
+                                else
+                                {
+					fprintf(stderr, "L%u:  usage: push integer\n", line_number);
+					exit(EXIT_FAILURE);
+                                }
+			}
 			stack = NULL;
-			get_op_func(pritok, &stack, countlines);
+			get_op_func(tokens, &stack, line_number);
 		}
-	return(0);
+	free(tokens);
+	free(checkd);
+	return (0);
 }
