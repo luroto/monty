@@ -1,18 +1,28 @@
 #include "monty.h"
 
 /**
- * print_dlistint - Prints the elements of a list
- *@h: Pointer from another function
- * Return: the number of nodes
- */
+ * print_all - Prints the elements of a stack
+ *@stack: Double pointer to the head of a stack
+ *@line_number: Number of the line which contains the order
+*/
 void print_all(stack_t **stack, unsigned int line_number)
 {
-	size_t iteranodo = 0;
+	int iteranodo = 0;
+	stack_t *iterante;
 
-	while (*stack != NULL)
+	(void) line_number;
+	iterante = malloc(sizeof(iterante));
+	if (iterante == NULL)
 	{
-		printf("%d\n", h->n);
-		h = h->next;
+		free(iterante);
+	}
+	iterante = *stack;
+	while (iterante != NULL)
+	{
+		printf("%d\n", iterante->n);
+		iterante = iterante->next;
 		iteranodo++;
 	}
+	printf("%d", iteranodo);
+	free(iterante);
 }

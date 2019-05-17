@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 	ssize_t fdgetline;
 	stack_t *stack;
 	FILE *file;
-	int i = 0, contad = 0;
+	int i = 0/*, contad = 0*/;
 
 	if (argc != 2)
 	{
@@ -29,19 +29,22 @@ int main(int argc, char **argv)
 			tokens = malloc(sizeof(tokens));
 			if (tokens == NULL)
 			{
-				malloc_failed(tokens);
+				free(tokens);
+				fprintf(stderr, "Error: malloc failed (toks)");
+				exit(EXIT_FAILURE);
 			}
 			tokens[i] = strtok(gettingopcodes, " ");
 			do{
 				i++;
 				tokens[i] = strtok(NULL, " ");
 			} while (tokens[i] != NULL);
-			checkd = malloc(sizeof(tokens[1]));
+			checkd = malloc(sizeof(checkd));
 			if (checkd == NULL)
 			{
-				malloc_failed(checkd);
+				free(checkd);
+				fprintf(stderr, "Error: malloc failed (arg)");
 			}
-                        while(checkd[contad] != '\0')
+/*                        while(checkd[contad] != '\0')
                         {
                                 if (*(checkd)[contad] >= 48 && *(checkd)[contad] <=57)
                                 {
@@ -52,7 +55,7 @@ int main(int argc, char **argv)
 					fprintf(stderr, "L%u:  usage: push integer\n", line_number);
 					exit(EXIT_FAILURE);
                                 }
-			}
+				}*/
 			stack = NULL;
 			get_op_func(tokens, &stack, line_number);
 		}

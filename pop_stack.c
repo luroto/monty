@@ -1,21 +1,35 @@
 #include "monty.h"
-
+/**
+ *pop_stack - removes the top element of the stack
+ *@stack: Double pointer to the stack as a whole
+ *@line_number: Number of the line that
+ */
 void pop_stack(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp;
+	stack_t *siguiente;
+	int itera = 0 ;
 
-	temp = malloc(sizeof(stack_t));
-	if (temp == NULL)
+	while (stack[itera] != NULL)
 	{
-		malloc_failed(temp);
+		itera++;
 	}
-	temp = *stack;
-	while (temp != NULL)
+	if (itera == 0)
 	{
-		if (temp->prev != NULL && temp->next == NULL)
-		{
-			temp->prev->next = NULL;
-		}
-		else if (curr->prev != NULL)
+		fprintf(stderr, "L%u: can't pop an empty stack", line_number);
+		exit(EXIT_FAILURE);
 	}
+	siguiente = malloc(sizeof(siguiente));
+	if (siguiente == NULL)
+	{
+		free(siguiente);
+		fprintf(stderr, "Error: can't malloc");
+		exit(EXIT_FAILURE);
+	}
+	siguiente = (*stack)->next;
+	if (siguiente != NULL)
+	{
+		siguiente->prev = NULL;
+		*stack = siguiente;
+	}
+	free(siguiente);
 }
